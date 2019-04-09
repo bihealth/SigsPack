@@ -32,7 +32,7 @@
 #' summarize_exposures(create_mut_catalogues(10,500)[['catalogues']][,1], plotting=FALSE)
 #' }
 #' @export
-summarize_exposures <- function(mut_cat, P = SigsPack::cosmicSigs,  plotting=TRUE, m=NULL){
+summarize_exposures <- function(mut_cat, P = cosmicSigs,  plotting=TRUE, m=NULL){
 
   if (! is.numeric(mut_cat)){
     stop('The mutational catalogue is expected to contain only numbers.',

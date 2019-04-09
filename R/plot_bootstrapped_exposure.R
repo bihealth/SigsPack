@@ -42,6 +42,8 @@
 #' plot_bootstrapped_exposure(exposures, as.matrix(original_exposure), 
 #' title='Example', box_col='grey')
 #' 
+#' @importFrom graphics boxplot axis points legend
+#'
 #' @export
 plot_bootstrapped_exposure <- function(bootstrapped_exposure,
                                       original_estimation=NULL, 

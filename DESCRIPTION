@@ -43,4 +43,4 @@ Collate:
   summarize_exposures.R
   vcf2mut_cat.R
 RoxygenNote: 6.1.1
-LazyData: FALSE
+LazyData: TRUE

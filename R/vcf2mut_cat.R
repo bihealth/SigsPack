@@ -18,6 +18,9 @@
 #'
 #' @note The execution can take some time, depending on the size of the vcf 
 #'
+#' @importFrom stats na.omit
+#' @importFrom methods is
+#'
 #' @examples
 #' \dontrun{
 #' vcf2mut_cat('test.vcf', BSgenome.Hsapiens.1000genomes.hs37d5)
@@ -118,7 +121,7 @@ vcf2mut_cat <- function(vcf, genome, name=NULL, seqs=NULL){
    
    #format to match consensus
    mut_cat <- matrix(0L,ncol = 1, nrow = 96)
-   rownames(mut_cat) <- rownames(SigsPack::cosmicSigs)
+   rownames(mut_cat) <- rownames(cosmicSigs)
    for(i in seq_len(length(seqs))){
      if(as.character(ref[i]) %in% c('A', 'G')){
        seqsI <- as.character(Biostrings::reverseComplement(seqs[i]))

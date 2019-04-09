@@ -32,7 +32,7 @@
 #' 
 #'
 #' @export
-signature_exposure <- function(mut_cat, P = SigsPack::cosmicSigs, sig_set = NULL, FUN=decomposeQP, ... ){
+signature_exposure <- function(mut_cat, P = cosmicSigs, sig_set = NULL, FUN=decomposeQP, ... ){
 
   if (! is.matrix(P)){
     stop('P should be a matrix', call. = TRUE)
