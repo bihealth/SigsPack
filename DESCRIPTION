@@ -1,0 +1,46 @@
+Package: SigsPack
+Type: Package
+Title: Mutational Signature Estimation for Single Samples
+Version: 0.99.0
+Author: Franziska Schumann <franziskaschumann13@gmail.com>
+Maintainer: Franziska Schumann <franziskaschumann13@gmail.com>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: GPL (>=2)
+Encoding: UTF-8
+Depends:
+  R (>= 3.4.4)
+biocViews:
+Imports:
+  quadprog (>= 1.5-5),
+  methods,
+  Biobase
+Suggests:
+  BSgenome (>= 1.46.0),
+  BiocStyle,
+  VariantAnnotation (>= 1.24.5),
+  Biostrings,
+  GenomeInfoDb,
+  GenomicRanges,
+  rtracklayer,
+  SummarizedExperiment,
+  knitr,
+    rmarkdown
+VignetteBuilder: knitr
+BiocViews:
+BugReports: Link(s) to github (issues)
+URL: probably github
+Collate:
+  bootstrap_mut_catalogues.R
+  cosmicSigs.R
+  create_mut_catalogues.R
+  decomposeQP.R
+  get_context_freq.R
+  hg19context_freq.R
+  normalize.R
+  plot_bootstrapped_exposure.R
+  signature_exposure.R
+  summarize_exposures.R
+  vcf2mut_cat.R
+RoxygenNote: 6.1.1
+LazyData: FALSE

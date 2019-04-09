@@ -1,0 +1,149 @@
+---
+title: "Introduction to SigsPack"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to SigsPack}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Sigspack provides tools for easy computation of signature exposures from 
+mutational catalogues. 
+
+The package provides several features, allowing to read 
+the primary mutation data, normalise the mutational catalogues if necessary and
+compute signature exposures with their bootstrapped variation estimates.
+
+
+## Loading the package
+
+Download the package from Bioconductor
+
+```{r getPackage, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+install.packages("BiocManager")
+BiocManager::install("SigsPack")
+```
+        
+Or install the development version of the package from Github
+
+```{r, eval = FALSE}
+devtools::install_github(“fefschumann/SigsPack”)
+```
+        
+And then load the package into your R session.
+
+```{r Load, message=FALSE}
+library(SigsPack)
+```
+
+## Loading a VCF
+
+In most cases you will want to analyse real data, e.g. fit a sample's mutational
+profile to known mutational signatures. You can easily load your data and use it
+with the package.
+
+```{r eval = FALSE}
+if (require(BSgenome.Hsapiens.UCSC.hg19)) {
+  sample <- vcf2mut_cat('test.vcf', BSgenome.Hsapiens.UCSC.hg19)
+}
+```
+
+It will be transformed into a 'mutational profile' sorting all single nucleotide
+variants according to their trinucleotide context and mutation. The result is a 
+96 by 1 matrix that can be used as input to the analysis functions of the
+package as well as in most other packages of this field.
+
+## Simulating data
+
+Instead of using real-life data it is also possible to generate 
+synthetic data that can be used to analyse signatures stability. 
+The following code generates 10 mutational catalogues  with exposure to the 
+COSMIC signatures 2, 6, 15 and 27. The catalogues consist of mutation counts 
+sampled from a distribution that is a linear combination of the aforementioned 
+signatures. The weight of each of these signatures can optionally be specified, 
+too. For convenience, the COSMIC reference signature matrix is included in the
+package and used as default in the functions. However, it is also possible to 
+use all functions with a custom signature matrix.
+```{r}
+data("cosmicSigs")
+
+cats <- create_mut_catalogues(10, 500, P=cosmicSigs, sig_set = c(2,6,15,27))
+knitr::kable(head(cats[['catalogues']]))
+
+```
+
+
+## Estimating signature exposures and bootstrapping samples
+
+The function bootstrap_mut_catalogues bootstraps a sample returning a specified
+amount of re-samples which can be used to gain a better variability estimation 
+of the sample’s signature exposure.
+
+The signature exposure is calculated using quadratic programming. This can be 
+done on one or several samples at once. The COSMIC signatures have been included
+in the package, and are used by default. However, it is possible to use your own
+signature matrix, or use a sub-set of COSMIC signatures, instead of the whole 
+matrix.
+```{r}
+
+reps <- bootstrap_mut_catalogues(n = 1000, original = cats[["catalogues"]][,1])
+
+# using only signatures 4, 17, 23 and 30 for signature estimation
+sigs <- signature_exposure(reps, sig_set = c(4,17,23,30))
+
+print(sigs$exposures[,1])
+```
+
+With one command you can bootstrap a mutational catalogue and obtain a table and
+a plot illustrating the results of the signature estimation for this sample and 
+the bootstrapped re-samples. The plot shows the distribution of estimated 
+signature exposure for all the re-samples, highlighting the one of the original 
+mutational catalogue, thus providing insights on the reliability of the 
+estimates.
+```{r, fig.show='hold', fig.height=7, fig.width=7}
+
+report <- summarize_exposures(reps[,1])
+
+knitr::kable(
+  head(report)
+  )
+
+```
+
+## Tri-nucleotide contexts and normalization
+Accurate exposures estimation requires matching tri-nucleotide frequencies 
+between observations and the signature matrix. The COSMIC signature matrix 
+provided in the package is relative to the whole genome (GRCh37) tri-nucleotide 
+frequencies. So if you want to fit those signatures to exome data, the data need
+to be normalized to match the signatures prior to exposures estimation. 
+
+Let's say, that the vcf we derived the mutational catalogue from contained exome
+data. In the case of this example, we want to scale our exome data to the
+genome 'space' to match the COSMIC reference signatures. Hence, we need both the 
+tri-nucleotide distribution of the human genome (GRCh37) and the exome that our 
+data were collected on.
+
+Extract the tri-nucleotide context frequencies from a genome (BSgenome 
+object) or exome and use them to normalize the data.
+```{r, eval = FALSE}
+if (require(BSgenome.Hsapiens.UCSC.hg19)){
+  genome_contexts <- get_context_freq(BSgenome.Hsapiens.UCSC.hg19)
+  exome_contexts <- get_context_freq(BSgenome.Hsapiens.UCSC.hg19, 'example_exome.bed')
+  normalized_mut_cat <- normalize(sample, exome_contexts, hg19context_freq)
+}
+
+```
+
+
+## sessionInfo
+```{r}
+sessionInfo()
+```
