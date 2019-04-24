@@ -35,7 +35,7 @@ BiocManager::install("SigsPack")
 Or install the development version of the package from Github
 
 ```{r, eval = FALSE}
-devtools::install_github(“fefschumann/SigsPack”)
+devtools::install_github("fefschumann/SigsPack")
 ```
         
 And then load the package into your R session.
