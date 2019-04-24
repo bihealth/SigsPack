@@ -4,12 +4,16 @@ Title: Mutational Signature Estimation for Single Samples
 Version: 0.99.0
 Author: Franziska Schumann <franziskaschumann13@gmail.com>
 Maintainer: Franziska Schumann <franziskaschumann13@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: GPL (>=2)
+Description: Single sample estimation of exposure to mutational signatures.
+    Exposures to known mutational signatures are estimated for single samples,
+    based on quadratic programming algorithms. Bootstrapping the input
+    mutational catalogues provides estimations on the stability of these 
+    exposures. The effect of the sequence composition of mutational context
+    can be taken into account by normalising the catalogues.
+License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 Depends:
-  R (>= 3.4.4)
+  R (>= 3.4)
 biocViews:
 Imports:
   quadprog (>= 1.5-5),
@@ -25,11 +29,11 @@ Suggests:
   rtracklayer,
   SummarizedExperiment,
   knitr,
-    rmarkdown
+  rmarkdown
 VignetteBuilder: knitr
 BiocViews:
-BugReports: Link(s) to github (issues)
-URL: probably github
+BugReports: https://github.com/bihealth/SigsPack/issues
+URL: https://github.com/bihealth/SigsPack
 Collate:
   bootstrap_mut_catalogues.R
   cosmicSigs.R
@@ -43,4 +47,4 @@ Collate:
   summarize_exposures.R
   vcf2mut_cat.R
 RoxygenNote: 6.1.1
-LazyData: TRUE
+LazyData: true
