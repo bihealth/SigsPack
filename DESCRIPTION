@@ -2,8 +2,8 @@ Package: SigsPack
 Type: Package
 Title: Mutational Signature Estimation for Single Samples
 Version: 0.99.0
-Author: Franziska Schumann <franziskaschumann13@gmail.com>
-Maintainer: Franziska Schumann <franziskaschumann13@gmail.com>
+Author: Franziska Schumann <franziska.schumann@student.hpi.de>
+Maintainer: Franziska Schumann <franziska.schumann@student.hpi.de>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: GPL (>=2)
