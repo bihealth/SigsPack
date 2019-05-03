@@ -9,8 +9,8 @@
 #'
 #' @return matrix containing the frequencies of the trinucleotide contexts
 #' @examples 
-#' \dontrun{
 #' get_context_freq(BSgenome.Hsapiens.UCSC.hg19)
+#' \dontrun{
 #' get_context_freq(BSgenome.Hsapiens.UCSC.hg19, 'example.bed')
 #' }
 #' 
