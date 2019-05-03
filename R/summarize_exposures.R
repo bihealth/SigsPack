@@ -28,9 +28,8 @@
 #' if the plotting option is chosen, a boxplot will also be displayed
 #' 
 #' @examples
-#' \dontrun{
 #' summarize_exposures(create_mut_catalogues(10,500)[['catalogues']][,1], plotting=FALSE)
-#' }
+#' 
 #' @export
 summarize_exposures <- function(mut_cat, P = cosmicSigs,  plotting=TRUE, m=NULL){
 

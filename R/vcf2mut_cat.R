@@ -24,7 +24,6 @@
 #' @examples
 #' \dontrun{
 #' vcf2mut_cat('test.vcf', BSgenome.Hsapiens.1000genomes.hs37d5)
-#' seqs = as.character(seqnames(vcf69_5)@values)[-length(as.character(seqnames(vcf69_5)@values))]
 #' }
 #' @export
 vcf2mut_cat <- function(vcf, genome, name=NULL, seqs=NULL){

@@ -15,6 +15,19 @@
 #' normalized to match the target distribution (context)
 #' 
 #' @examples
+#' # this is a toy example:
+#' #create mutational catalogue:
+#' sim_data <- create_mut_catalogues(1, 500)[['catalogues']]
+#' # get trinucleotide frequencies for the genome:
+#' genome_context <- get_context_freq(BSgenome.Hsapiens.UCSC.hg19)
+#' #get trinucleotide frequencies for a specific region:
+#' gr<-GRanges(seqnames=c("chr1"),
+#'           ranges=IRanges(start=c(100000),end=c(1000000)),
+#'           strand=c("+"))
+#' region_context<-get_context_freq(BSgenome.Hsapiens.UCSC.hg19, gr)
+#' #normalize data:
+#' normalized_mut_cat <- normalize(sim_data, region_context, genome_context)
+#' 
 #' \dontrun{
 #' # get the tri-nucleotide distribution of an exome region
 #' exome_contexts <- get_context_freq(BSgenome.Hsapiens.UCSC.hg19, 'example_exome.bed')

@@ -9,7 +9,12 @@
 #'
 #' @return matrix containing the frequencies of the trinucleotide contexts
 #' @examples 
+#' gr<-GRanges(seqnames=c("chr1"),
+#'           ranges=IRanges(start=c(100000),end=c(1000000)),
+#'           strand=c("+"))
+#' get_context_freq(BSgenome.Hsapiens.UCSC.hg19, gr)
 #' get_context_freq(BSgenome.Hsapiens.UCSC.hg19)
+#' 
 #' \dontrun{
 #' get_context_freq(BSgenome.Hsapiens.UCSC.hg19, 'example.bed')
 #' }
