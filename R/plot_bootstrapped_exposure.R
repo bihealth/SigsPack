@@ -46,32 +46,32 @@
 #'
 #' @export
 plot_bootstrapped_exposure <- function(bootstrapped_exposure,
-                                      original_estimation=NULL, 
-                                      title=NULL, 
-                                      box_col=NULL, 
-                                      point_col=NULL, 
-                                      sig_names=NULL,
-                                      sample_names=NULL){
-
+                                       original_estimation=NULL, 
+                                       title=NULL, 
+                                       box_col=NULL, 
+                                       point_col=NULL, 
+                                       sig_names=NULL,
+                                       sample_names=NULL){
+    
     if(!is.numeric(bootstrapped_exposure)){
-      stop('The mutational catalogues should contain only numbers', call. = TRUE)
+        stop('The mutational catalogues should contain only numbers', call. = TRUE)
     }
     if(!is.null(original_estimation)){
         if(nrow(bootstrapped_exposure) != nrow(original_estimation)){
             stop('The bootstrapped exposures and the original estimation have to have the same amount of rows (signatures)', call. = TRUE)
         }
         else if(!is.numeric(original_estimation)){
-          stop('The mutational catalogues should contain only numbers', call. = TRUE)
+            stop('The mutational catalogues should contain only numbers', call. = TRUE)
         }
-      
+        
         if(is.null(sample_names)){
-          if (ncol(original_estimation) == 1){
-            sample_names = 'original profile'
+            if (ncol(original_estimation) == 1){
+                sample_names = 'original profile'
+            }
+            else{
+                sample_names = as.character(seq_len(ncol(original_estimation)))
+            }
         }
-        else{
-          sample_names = as.character(seq_len(ncol(original_estimation)))
-        }
-      }
     }
     else{
         original_estimation <- c()
@@ -99,16 +99,16 @@ plot_bootstrapped_exposure <- function(bootstrapped_exposure,
             stop('Amount of sig_names has to match the amount of signatures', call.=TRUE)
         }
     }
-
-  #============================================================================
-  # Plot
-  
+    
+    #============================================================================
+    # Plot
+    
     boxplot(t(bootstrapped_exposure), range = 0,
-            ylim = c(0, (max(bootstrapped_exposure)+0.10)), frame=F, 
+            ylim = c(0, (max(bootstrapped_exposure)+0.10)), frame=FALSE, 
             ylab = "Exposure", main = title, cex.axis = 1, xaxt = "n", 
             xlab = "Signatures", col = box_col)
     axis(1, seq_len(nrow(bootstrapped_exposure)), 
-         labels = as.character(sig_names), las = 1, tick=F, cex.axis = 0.7, 
+         labels = as.character(sig_names), las = 1, tick=FALSE, cex.axis = 0.7, 
          mgp = c(2,0.01,0))
     if(!is.null(original_estimation)){
         for(i in seq_len(ncol(original_estimation))){
