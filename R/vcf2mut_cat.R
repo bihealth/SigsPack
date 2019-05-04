@@ -41,7 +41,7 @@ vcf2mut_cat <- function(vcf, genome, name=NULL, seqs=NULL){
   
   check <- lapply(c('BSgenome', 'SummarizedExperiment'), function(pack){
     if(!requireNamespace(pack, quietly = TRUE)){
-      stop(paste0('Please install the library ', pack, 
+       stop(paste0('Please install the library ', pack, 
                   ' to use this function.'),
            call. = TRUE)
     }
