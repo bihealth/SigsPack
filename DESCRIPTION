@@ -21,6 +21,7 @@ Imports:
   Biobase
 Suggests:
   BSgenome (>= 1.46.0),
+  BSgenome.Hsapiens.UCSC.hg19,
   BiocStyle,
   VariantAnnotation (>= 1.24.5),
   Biostrings,
