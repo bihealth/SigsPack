@@ -13,12 +13,19 @@ Description: Single sample estimation of exposure to mutational signatures.
 License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 Depends:
-  R (>= 3.4)
+  R (>= 3.6)
 biocViews:
+  SomaticMutation,
+  SNP,
+  VariantAnnotation,
+  BiomedicalInformatics,
+  DNASeq
 Imports:
   quadprog (>= 1.5-5),
   methods,
-  Biobase
+  Biobase,
+  graphics,
+  stats
 Suggests:
   BSgenome (>= 1.46.0),
   BSgenome.Hsapiens.UCSC.hg19,

@@ -32,46 +32,46 @@
 #' 
 #' @export
 summarize_exposures <- function(mut_cat, P = cosmicSigs,  plotting=TRUE, m=NULL){
-
-  if (! is.numeric(mut_cat)){
-    stop('The mutational catalogue is expected to contain only numbers.',
-         call. = TRUE)
-  }
-  mut_cat <- as.matrix(mut_cat)
-
-  QPoriginal <- signature_exposure(mut_cat, P)
-  
-  if(is.null(m)){
-    m <- colSums(mut_cat)
-  }
-  bootstrapped <- bootstrap_mut_catalogues(1000, mut_cat[,1], m)
-  
-  QPbootstrapped <- signature_exposure(bootstrapped, P)
-  
-  exposure_stats <- matrix(nrow = ncol(P), ncol = 6)
-  rownames(exposure_stats) = colnames(P)
-  colnames(exposure_stats) = c('original exposure', 'min','1. quartile',
-                               'median', '3. quartile', 'max')
-  original_exposures <- QPoriginal[['exposures']][,1]
-  boot_exposures <- QPbootstrapped[['exposures']]
-  
-  exposure_stats[,1] <- original_exposures
-  exposure_stats[,2] <- Biobase::rowMin(boot_exposures)
-  exposure_stats[,3] <- apply(boot_exposures, 1, function(x){
-    stats::quantile(x, 0.25)
-  })
-  exposure_stats[,4] <- Biobase::rowMedians(boot_exposures)
-  exposure_stats[,5] <- apply(boot_exposures, 1, function(x){
-    stats::quantile(x, 0.75)
-  })
-  exposure_stats[,6] <- Biobase::rowMax(boot_exposures)
-  
-  #==========================================================================
-  #Plot
-  if(plotting){
-    plot_bootstrapped_exposure(boot_exposures, as.matrix(QPoriginal[['exposures']]))
-  }
-  #==========================================================================
-  
-  return(exposure_stats)
+    
+    if (! is.numeric(mut_cat)){
+        stop('The mutational catalogue is expected to contain only numbers.',
+             call. = TRUE)
+    }
+    mut_cat <- as.matrix(mut_cat)
+    
+    QPoriginal <- signature_exposure(mut_cat, P)
+    
+    if(is.null(m)){
+        m <- colSums(mut_cat)
+    }
+    bootstrapped <- bootstrap_mut_catalogues(1000, mut_cat[,1], m)
+    
+    QPbootstrapped <- signature_exposure(bootstrapped, P)
+    
+    exposure_stats <- matrix(nrow = ncol(P), ncol = 6)
+    rownames(exposure_stats) = colnames(P)
+    colnames(exposure_stats) = c('original exposure', 'min','1. quartile',
+                                 'median', '3. quartile', 'max')
+    original_exposures <- QPoriginal[['exposures']][,1]
+    boot_exposures <- QPbootstrapped[['exposures']]
+    
+    exposure_stats[,1] <- original_exposures
+    exposure_stats[,2] <- Biobase::rowMin(boot_exposures)
+    exposure_stats[,3] <- apply(boot_exposures, 1, function(x){
+        stats::quantile(x, 0.25)
+    })
+    exposure_stats[,4] <- Biobase::rowMedians(boot_exposures)
+    exposure_stats[,5] <- apply(boot_exposures, 1, function(x){
+        stats::quantile(x, 0.75)
+    })
+    exposure_stats[,6] <- Biobase::rowMax(boot_exposures)
+    
+    #==========================================================================
+    #Plot
+    if(plotting){
+        plot_bootstrapped_exposure(boot_exposures, as.matrix(QPoriginal[['exposures']]))
+    }
+    #==========================================================================
+    
+    return(exposure_stats)
 }
