@@ -31,7 +31,7 @@ vcf2mut_cat <- function(vcf, genome, name=NULL, seqs=NULL){
     if(!requireNamespace('VariantAnnotation', quietly = TRUE)){
         stop(paste0('Please install the library 
                 VariantAnnotation to use this function.'),
-             call. = TRUE)
+              call. = TRUE)
     }
     
     # if vcf is a file path, first import
