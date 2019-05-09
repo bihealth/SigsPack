@@ -30,7 +30,9 @@
 #' sim_data <- create_mut_catalogues(1, 500, sig_set = c(1,4,29), c_exposure = c(0.25, 0.65, 0.1))
 #'
 #' @export
-create_mut_catalogues <- function(n, m, P = cosmicSigs, sig_set = NULL,
+create_mut_catalogues <- function(n, m,
+                                  P=get(utils::data("cosmicSigs", package="SigsPack")),
+                                  sig_set = NULL,
                                   c_exposure = NULL){
     if (! is.matrix(P)){
         stop('P should be a matrix', call. = TRUE)

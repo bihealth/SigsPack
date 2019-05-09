@@ -32,7 +32,9 @@
 #' 
 #'
 #' @export
-signature_exposure <- function(mut_cat, P = cosmicSigs, sig_set = NULL, FUN=decomposeQP, ... ){
+signature_exposure <- function(mut_cat,
+                               P = get(utils::data("cosmicSigs", package="SigsPack")),
+                               sig_set = NULL, FUN=decomposeQP, ... ){
     
     if (! is.matrix(P)){
         stop('P should be a matrix', call. = TRUE)
@@ -69,6 +71,13 @@ signature_exposure <- function(mut_cat, P = cosmicSigs, sig_set = NULL, FUN=deco
     
     P_adj <- P[,sig_set]
     
+    # Add warning for low counts
+    tmp <- colSums(mut_cat, na.rm=TRUE)
+    if (isTRUE(all.equal(tmp, round(tmp))) &&
+        min(tmp) < 125)
+        warning(paste("Low number of mutations (",
+                      min(tmp),
+                      "), exposures may be unreliable"))
     
     # some parts are from 'findSigExposure' in SigEs
     mut_cat <- apply(mut_cat, 2, function(x) {

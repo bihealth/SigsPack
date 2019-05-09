@@ -41,7 +41,8 @@
 #' function
 #'
 #' @export
-normalize <- function(mut_cat, source_context, target_context=hg19context_freq){
+normalize <- function(mut_cat, source_context,
+                      target_context=get(utils::data("hg19context_freq", package="SigsPack"))){
     # TODO not usable for other contexts then the default 96 for now...
     
     if (! is.numeric(mut_cat)){
@@ -67,13 +68,14 @@ normalize <- function(mut_cat, source_context, target_context=hg19context_freq){
     }
     # more checks probably needed
     
-    rownames(m) <- rownames(cosmicSigs)
+    P <- get(utils::data("cosmicSigs", package="SigsPack"))
+    rownames(m) <- rownames(P)
     
     # add a triplet column to the catalogue to compare to the contexts
     for(i in seq_len(96)){
-        rownames(m)[i] <- paste0(substring(rownames(cosmicSigs)[i],1,1),
-                                 substring(rownames(cosmicSigs)[i],3,3),
-                                 substring(rownames(cosmicSigs)[i],7,7))
+        rownames(m)[i] <- paste0(substring(rownames(P)[i],1,1),
+                                 substring(rownames(P)[i],3,3),
+                                 substring(rownames(P)[i],7,7))
     }
     
     #normalize
@@ -82,7 +84,7 @@ normalize <- function(mut_cat, source_context, target_context=hg19context_freq){
             (source_context[triplet,])*(target_context[triplet,])
     }
     
-    rownames(m) <- rownames(cosmicSigs)
+    rownames(m) <- rownames(P)
     m <- apply(m, 2, function(x) {
         x/sum(x)
     })

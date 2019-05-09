@@ -10,7 +10,7 @@ Description: Single sample estimation of exposure to mutational signatures.
     mutational catalogues provides estimations on the stability of these 
     exposures. The effect of the sequence composition of mutational context
     can be taken into account by normalising the catalogues.
-License: BSD_3_clause + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 Depends:
   R (>= 3.6)
@@ -24,17 +24,20 @@ Imports:
   quadprog (>= 1.5-5),
   methods,
   Biobase,
-  graphics,
-  stats
-Suggests:
   BSgenome (>= 1.46.0),
-  BiocStyle,
   VariantAnnotation (>= 1.24.5),
   Biostrings,
   GenomeInfoDb,
   GenomicRanges,
   rtracklayer,
   SummarizedExperiment,
+  graphics,
+  stats,
+  utils
+Suggests:
+  IRanges,
+  BSgenome.Hsapiens.UCSC.hg19,
+  BiocStyle,
   knitr,
   rmarkdown
 VignetteBuilder: knitr
