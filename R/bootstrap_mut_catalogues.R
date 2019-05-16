@@ -21,39 +21,39 @@
 #'
 #' @export
 bootstrap_mut_catalogues <- function(n, original, m = NULL){
-  if (!is.numeric(n) || n < 1){
-    stop('n has to be a positive number', call. = TRUE)
-  }
-
-  if (! is.numeric(original)){
-    stop('The original mutational catalogue is expected to contain only
+    if (!is.numeric(n) || n < 1){
+        stop('n has to be a positive number', call. = TRUE)
+    }
+    
+    if (! is.numeric(original)){
+        stop('The original mutational catalogue is expected to contain only
          numbers.'
-         ,call. = TRUE)
-  }
-
-  if(is.null(m)){
-    m <- sum(original)
-  }
-  else if (!is.numeric(n) || n < 1){
-    stop('m has to be a positive number', call. = TRUE)
-  }
-  #=============================================================================
-  
-  nfeatures <- length(original)
-  boot_replicates <- matrix(0, ncol = n, nrow = nfeatures)
-  original <- original/m
-
-  for(i in seq_len(n)){
-    # partly from SignatureEstimation
-    mutations_sampled <- sample(seq(nfeatures), m, replace = TRUE,
-                                prob = original)
-    rep <- as.numeric(table(factor(mutations_sampled,
-                                        levels = seq(nfeatures))))
-    boot_replicates[,i] <- rep
-  }
-  
-  rep_names <- paste0('replicate_', seq_len(n))
-  colnames(boot_replicates) <- rep_names
-  rownames(boot_replicates) <- rownames(original)
-  return(boot_replicates)
+             ,call. = TRUE)
+    }
+    
+    if(is.null(m)){
+        m <- sum(original)
+    }
+    else if (!is.numeric(n) || n < 1){
+        stop('m has to be a positive number', call. = TRUE)
+    }
+    #=============================================================================
+    
+    nfeatures <- length(original)
+    boot_replicates <- matrix(0, ncol = n, nrow = nfeatures)
+    original <- original/m
+    
+    for(i in seq_len(n)){
+        # partly from SignatureEstimation
+        mutations_sampled <- sample(seq(nfeatures), m, replace = TRUE,
+                                    prob = original)
+        rep <- as.numeric(table(factor(mutations_sampled,
+                                       levels = seq(nfeatures))))
+        boot_replicates[,i] <- rep
+    }
+    
+    rep_names <- paste0('replicate_', seq_len(n))
+    colnames(boot_replicates) <- rep_names
+    rownames(boot_replicates) <- rownames(original)
+    return(boot_replicates)
 }
