@@ -1,7 +1,7 @@
 Package: SigsPack
 Type: Package
 Title: Mutational Signature Estimation for Single Samples
-Version: 0.99.2
+Version: 0.99.3
 Author: Franziska Schumann <franziska.schumann@student.hpi.de>
 Maintainer: Franziska Schumann <franziska.schumann@student.hpi.de>
 Description: Single sample estimation of exposure to mutational signatures.
@@ -47,6 +47,8 @@ URL: https://github.com/bihealth/SigsPack
 Collate:
   bootstrap_mut_catalogues.R
   cosmicSigs.R
+  sigProfilerExome.R
+  sigProfiler20190522.R
   create_mut_catalogues.R
   decomposeQP.R
   get_context_freq.R
