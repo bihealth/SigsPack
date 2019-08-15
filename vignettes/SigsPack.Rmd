@@ -24,22 +24,6 @@ compute signature exposures with their bootstrapped variation estimates.
 
 ## Loading the package
 
-Download the package from Bioconductor
-
-```{r getPackage, eval=FALSE}
-if (!requireNamespace("BiocManager", quietly = TRUE))
-install.packages("BiocManager")
-BiocManager::install("SigsPack")
-```
-        
-Or install the development version of the package from Github
-
-```{r, eval = FALSE}
-devtools::install_github("bihealth/SigsPack")
-```
-        
-And then load the package into your R session.
-
 ```{r Load, message=FALSE}
 library(SigsPack)
 ```
@@ -50,9 +34,12 @@ In most cases you will want to analyse real data, e.g. fit a sample's mutational
 profile to known mutational signatures. You can easily load your data and use it
 with the package.
 
-```{r eval = FALSE}
+```{r}
 if (require(BSgenome.Hsapiens.UCSC.hg19)) {
-  sample <- vcf2mut_cat('test.vcf', BSgenome.Hsapiens.UCSC.hg19)
+  sample <- vcf2mut_cat(
+    system.file("extdata", "example.vcf.gz", package="SigsPack"),
+    BSgenome.Hsapiens.UCSC.hg19
+  )
 }
 ```
 
@@ -133,15 +120,31 @@ data were collected on.
 
 Extract the tri-nucleotide context frequencies from a genome (BSgenome 
 object) or exome and use them to normalize the data.
-```{r, eval = FALSE}
+```{r}
 if (require(BSgenome.Hsapiens.UCSC.hg19)){
   genome_contexts <- get_context_freq(BSgenome.Hsapiens.UCSC.hg19)
-  exome_contexts <- get_context_freq(BSgenome.Hsapiens.UCSC.hg19, 'example_exome.bed')
-  normalized_mut_cat <- normalize(sample, exome_contexts, hg19context_freq)
+  exome_contexts <- get_context_freq(
+    BSgenome.Hsapiens.UCSC.hg19,
+    system.file("extdata", "example.bed.gz", package="SigsPack")
+  )
+  normalized_mut_cat <- SigsPack::normalize(sample, exome_contexts, hg19context_freq)
 }
-
 ```
 
+The normalization returns frequencies, not count numbers. If you want to use them
+for exposure estimation or for bootstrapping, the catalogue size must be scaled,
+or input together with the normalized catalogue.
+```{r, fig.show='hold', fig.height=7, fig.width=7}
+if (require(BSgenome.Hsapiens.UCSC.hg19)) {
+  sigs_norm <- signature_exposure(sum(sample) * normalized_mut_cat)
+  report_norm <- summarize_exposures(normalized_mut_cat, m=sum(sample))
+  reps_norm <- bootstrap_mut_catalogues(
+      n=1000,
+      original=normalized_mut_cat, 
+      m=sum(sample)
+  )
+}
+```
 
 ## sessionInfo
 ```{r}

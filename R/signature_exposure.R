@@ -74,6 +74,7 @@ signature_exposure <- function(mut_cat,
     # Add warning for low counts
     tmp <- colSums(mut_cat, na.rm=TRUE)
     if (isTRUE(all.equal(tmp, round(tmp))) &&
+        isFALSE(all.equal(tmp, 1)) &&
         min(tmp) < 125)
         warning(paste("Low number of mutations (",
                       min(tmp),
